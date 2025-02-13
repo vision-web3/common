@@ -4,8 +4,8 @@ from unittest.mock import patch
 
 import pytest
 
-from pantos.common.configuration import Config
-from pantos.common.configuration import ConfigError
+from vision.common.configuration import Config
+from vision.common.configuration import ConfigError
 
 
 def test_validate_one_not_present():

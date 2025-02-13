@@ -1,8 +1,8 @@
 import pytest
 
-from pantos.common.blockchains.cronos import CronosUtilities
-from pantos.common.blockchains.cronos import CronosUtilitiesError
-from pantos.common.blockchains.enums import Blockchain
+from vision.common.blockchains.cronos import CronosUtilities
+from vision.common.blockchains.cronos import CronosUtilitiesError
+from vision.common.blockchains.enums import Blockchain
 
 
 @pytest.fixture(scope='module')

@@ -4,19 +4,19 @@ import uuid
 import pytest
 from celery.exceptions import Retry  # type: ignore
 
-from pantos.common.blockchains.base import BlockchainUtilities
-from pantos.common.blockchains.base import BlockchainUtilitiesError
-from pantos.common.blockchains.base import MaxTotalFeePerGasExceededError
-from pantos.common.blockchains.base import ResultsNotMatchingError
-from pantos.common.blockchains.factory import initialize_blockchain_utilities
-from pantos.common.blockchains.tasks import \
+from vision.common.blockchains.base import BlockchainUtilities
+from vision.common.blockchains.base import BlockchainUtilitiesError
+from vision.common.blockchains.base import MaxTotalFeePerGasExceededError
+from vision.common.blockchains.base import ResultsNotMatchingError
+from vision.common.blockchains.factory import initialize_blockchain_utilities
+from vision.common.blockchains.tasks import \
     _dependent_transaction_submission_task
-from pantos.common.blockchains.tasks import _transaction_resubmission_task
-from pantos.common.blockchains.tasks import \
+from vision.common.blockchains.tasks import _transaction_resubmission_task
+from vision.common.blockchains.tasks import \
     create_transaction_resubmission_task
-from pantos.common.blockchains.tasks import \
+from vision.common.blockchains.tasks import \
     get_transaction_resubmission_task_result
-from pantos.common.entities import TransactionStatus
+from vision.common.entities import TransactionStatus
 
 
 class _RetryError(Exception):
@@ -26,7 +26,7 @@ class _RetryError(Exception):
 
 
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks._transaction_resubmission_task')
+    'vision.common.blockchains.tasks._transaction_resubmission_task')
 def test_create_transaction_resubmission_task_correct(
         mock_transaction_resubmission_task, blockchain, blockchain_node_urls,
         fallback_blockchain_node_urls, average_block_time,
@@ -74,7 +74,7 @@ def test_get_transaction_resubmission_task_result_error(mock_async_result):
 
 @pytest.mark.parametrize('transaction_status', TransactionStatus)
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_blockchain_utilities')
+    'vision.common.blockchains.tasks.get_blockchain_utilities')
 @unittest.mock.patch.object(_transaction_resubmission_task, 'retry',
                             _RetryError)
 def test_transaction_resubmission_task_correct(
@@ -102,7 +102,7 @@ def test_transaction_resubmission_task_correct(
 
 
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_blockchain_utilities')
+    'vision.common.blockchains.tasks.get_blockchain_utilities')
 @unittest.mock.patch.object(_transaction_resubmission_task, 'retry',
                             _RetryError)
 def test_transaction_resubmission_task_read_transaction_status_error(
@@ -121,7 +121,7 @@ def test_transaction_resubmission_task_read_transaction_status_error(
 @pytest.mark.parametrize(
     'error', [MaxTotalFeePerGasExceededError, BlockchainUtilitiesError])
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_blockchain_utilities')
+    'vision.common.blockchains.tasks.get_blockchain_utilities')
 @unittest.mock.patch.object(_transaction_resubmission_task, 'retry',
                             _RetryError)
 def test_transaction_resubmission_task_resubmit_transaction_error(
@@ -142,7 +142,7 @@ def test_transaction_resubmission_task_resubmit_transaction_error(
     'transaction_status',
     [TransactionStatus.UNINCLUDED, TransactionStatus.UNCONFIRMED])
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_blockchain_utilities')
+    'vision.common.blockchains.tasks.get_blockchain_utilities')
 def test_dependent_transaction_submission_task_prerequisite_tx_not_included(
         mocked_get_blockchain_utilities, transaction_status, blockchain,
         transaction_submission_start_request_dict, transaction_id):
@@ -158,7 +158,7 @@ def test_dependent_transaction_submission_task_prerequisite_tx_not_included(
 
 
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_blockchain_utilities')
+    'vision.common.blockchains.tasks.get_blockchain_utilities')
 def test_dependent_transaction_submission_task_prerequisite_tx_reverted(
         mocked_get_blockchain_utilities, blockchain,
         transaction_submission_start_request_dict, transaction_id):
@@ -177,7 +177,7 @@ def test_dependent_transaction_submission_task_prerequisite_tx_reverted(
 @pytest.mark.parametrize('error',
                          [ResultsNotMatchingError, BlockchainUtilitiesError])
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_blockchain_utilities')
+    'vision.common.blockchains.tasks.get_blockchain_utilities')
 def test_dependent_transaction_submission_task_prerequisite_tx_receipt_missing(
         mocked_get_blockchain_utilities, error, blockchain,
         transaction_submission_start_request_dict, transaction_id):
@@ -196,7 +196,7 @@ def test_dependent_transaction_submission_task_prerequisite_tx_receipt_missing(
 
 
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_blockchain_utilities')
+    'vision.common.blockchains.tasks.get_blockchain_utilities')
 def test_dependent_transaction_submission_task_submit_dependent_tx(
         mocked_get_blockchain_utilities, commit_wait_period, blockchain,
         transaction_submission_start_request_dict,
@@ -220,7 +220,7 @@ def test_dependent_transaction_submission_task_submit_dependent_tx(
 
 
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_blockchain_utilities')
+    'vision.common.blockchains.tasks.get_blockchain_utilities')
 def test_dependent_transaction_submission_task_prereq_tx_not_enough_confs(
         mocked_get_blockchain_utilities, commit_wait_period, blockchain,
         transaction_submission_start_request_dict,

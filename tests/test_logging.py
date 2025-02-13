@@ -10,13 +10,13 @@ import unittest.mock
 import json_log_formatter  # type: ignore
 import pytest
 
-from pantos.common.blockchains.enums import Blockchain
-from pantos.common.logging import _HUMAN_READABLE_LOG_FORMAT
-from pantos.common.logging import LogFile
-from pantos.common.logging import LogFormat
-from pantos.common.logging import _DataDogJSONFormatter
-from pantos.common.logging import _HumanReadableFormatter
-from pantos.common.logging import initialize_logger
+from vision.common.blockchains.enums import Blockchain
+from vision.common.logging import _HUMAN_READABLE_LOG_FORMAT
+from vision.common.logging import LogFile
+from vision.common.logging import LogFormat
+from vision.common.logging import _DataDogJSONFormatter
+from vision.common.logging import _HumanReadableFormatter
+from vision.common.logging import initialize_logger
 
 _LOG_MESSAGE = 'test message'
 _LOG_EXTRA_KEY_1 = 'first test key'
@@ -173,7 +173,7 @@ def test_initialize_logger_log_correct(root_logger, log_format):
     file_path.unlink()
 
 
-@unittest.mock.patch('pantos.common.logging.pathlib.Path.mkdir')
+@unittest.mock.patch('vision.common.logging.pathlib.Path.mkdir')
 def test_initialize_logger_permission_error(mocked_mkdir, root_logger):
     mocked_mkdir.side_effect = PermissionError
     directory_path = pathlib.Path(tempfile.mkdtemp())

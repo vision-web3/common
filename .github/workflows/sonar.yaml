@@ -7,7 +7,7 @@ on:
 
 jobs:
   shared:
-    if: github.repository == 'pantos-io/common'
-    uses: pantos-io/ci-workflows/.github/workflows/sonar.yml@v1
+    if: github.repository == 'vision-web3-foundation/common'
+    uses: vision-web3-foundation/ci-workflows/.github/workflows/sonar.yml@v1
     secrets: inherit
 

@@ -1,8 +1,8 @@
 import pytest
 
-from pantos.common.blockchains.celo import CeloUtilities
-from pantos.common.blockchains.celo import CeloUtilitiesError
-from pantos.common.blockchains.enums import Blockchain
+from vision.common.blockchains.celo import CeloUtilities
+from vision.common.blockchains.celo import CeloUtilitiesError
+from vision.common.blockchains.enums import Blockchain
 
 
 @pytest.fixture(scope='module')

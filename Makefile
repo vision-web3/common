@@ -1,4 +1,4 @@
-PYTHON_FILES := pantos/common scripts tests
+PYTHON_FILES := vision/common scripts tests
 
 .PHONY: check-version
 check-version:
@@ -59,10 +59,10 @@ test:
 
 .PHONY: coverage
 coverage:
-	poetry run python3 -m pytest --cov-report term-missing --cov=pantos tests
+	poetry run python3 -m pytest --cov-report term-missing --cov=vision tests
 
 .PHONY: clean
 clean:
 	rm -r -f build/
 	rm -r -f dist/
-	rm -r -f pantos_common.egg-info/
+	rm -r -f vision_common.egg-info/

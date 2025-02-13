@@ -7,18 +7,18 @@ import uuid
 
 import pytest
 
-from pantos.common.blockchains.base import _BASE_CONTRACT_ABI_PACKAGE
-from pantos.common.blockchains.base import BlockchainUtilities
-from pantos.common.blockchains.base import BlockchainUtilitiesError
-from pantos.common.blockchains.base import MaxTotalFeePerGasExceededError
-from pantos.common.blockchains.base import NodeConnectionError
-from pantos.common.blockchains.base import NodeConnections
-from pantos.common.blockchains.base import ResultsNotMatchingError
-from pantos.common.blockchains.base import SingleNodeConnectionError
-from pantos.common.blockchains.base import TransactionUnderpricedError
-from pantos.common.blockchains.base import VersionedContractAbi
-from pantos.common.blockchains.enums import ContractAbi
-from pantos.common.entities import TransactionStatus
+from vision.common.blockchains.base import _BASE_CONTRACT_ABI_PACKAGE
+from vision.common.blockchains.base import BlockchainUtilities
+from vision.common.blockchains.base import BlockchainUtilitiesError
+from vision.common.blockchains.base import MaxTotalFeePerGasExceededError
+from vision.common.blockchains.base import NodeConnectionError
+from vision.common.blockchains.base import NodeConnections
+from vision.common.blockchains.base import ResultsNotMatchingError
+from vision.common.blockchains.base import SingleNodeConnectionError
+from vision.common.blockchains.base import TransactionUnderpricedError
+from vision.common.blockchains.base import VersionedContractAbi
+from vision.common.blockchains.enums import ContractAbi
+from vision.common.entities import TransactionStatus
 
 _CONTRACT_ABI = '''
     [
@@ -296,7 +296,7 @@ def test_resubmit_transaction_max_total_fee_per_gas_exceeded_error(
 
 @pytest.mark.parametrize('initial_submission_underpriced', [False, True])
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.create_transaction_resubmission_task',
+    'vision.common.blockchains.tasks.create_transaction_resubmission_task',
     return_value=uuid.uuid4())
 @unittest.mock.patch.object(BlockchainUtilities, 'resubmit_transaction')
 @unittest.mock.patch.object(BlockchainUtilities, 'submit_transaction')
@@ -356,7 +356,7 @@ def test_start_transaction_submission_adaptable_fee_increase_factor_error(
 
 
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.create_transaction_resubmission_task',
+    'vision.common.blockchains.tasks.create_transaction_resubmission_task',
     side_effect=Exception)
 @unittest.mock.patch.object(BlockchainUtilities, 'submit_transaction')
 @unittest.mock.patch.object(BlockchainUtilities, 'get_error_class',
@@ -377,7 +377,7 @@ def test_start_transaction_submission_transaction_resubmission_task_error(
      '0xdf6fca0130714b5496fe9f0dbf6991ca996f2a387e6698707f825f98f8725e1c')
 ])
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_transaction_resubmission_task_result')
+    'vision.common.blockchains.tasks.get_transaction_resubmission_task_result')
 def test_get_transaction_submission_status_correct(
         mock_get_transaction_resubmission_task_result, task_result,
         blockchain_utilities, internal_transaction_id):
@@ -404,7 +404,7 @@ def test_get_transaction_submission_status_celery_tasks_disabled_error(
 
 
 @unittest.mock.patch(
-    'pantos.common.blockchains.tasks.get_transaction_resubmission_task_result',
+    'vision.common.blockchains.tasks.get_transaction_resubmission_task_result',
     side_effect=Exception)
 @unittest.mock.patch.object(BlockchainUtilities, 'get_error_class',
                             return_value=BlockchainUtilitiesError)

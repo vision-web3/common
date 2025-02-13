@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-"""Generate a private key to be used with the pantos.common.signer
+"""Generate a private key to be used with the vision-web3.common.signer
 module.
 
 """

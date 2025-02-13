@@ -6,10 +6,10 @@ import uuid
 
 import pytest
 
-from pantos.common.blockchains.base import BlockchainUtilities
-from pantos.common.blockchains.base import VersionedContractAbi
-from pantos.common.blockchains.enums import Blockchain
-from pantos.common.blockchains.enums import ContractAbi
+from vision.common.blockchains.base import BlockchainUtilities
+from vision.common.blockchains.base import VersionedContractAbi
+from vision.common.blockchains.enums import Blockchain
+from vision.common.blockchains.enums import ContractAbi
 
 _ACCOUNT_ADDRESS = '0x352F6A5abD3564d5016336e5dA91389B7C47f6dd'
 
