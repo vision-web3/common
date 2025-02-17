@@ -242,7 +242,7 @@ def test_is_protocol_version_supported_by_contract_correct(
         pytest.skip('contract not tied to specific protocol version')
     if (versioned_contract_abi.contract_abi is ContractAbi.VISION_HUB
             and versioned_contract_abi.version
-            < semantic_version.Version('0.2.0')):
+            < semantic_version.Version('0.3.0')):
         pytest.skip('contract function not available')
 
     protocol_version = (versioned_contract_abi.version if supported_by_contract
