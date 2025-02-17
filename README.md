@@ -84,7 +84,7 @@ The Vision-web3 Common library allows its configuration to be loaded from multip
     $PWD
     $HOME
     ~/.config
-    /etc/vision-web3
+    /etc/vision
     /etc
 ```
 
@@ -94,4 +94,4 @@ Alternatively one can define the location of such files by using the `VISION-WEB
 
 ### 3.2 Examples
 
-https://github.com/vision-web3-foundation/client-library/blob/main/vision-web3/client/library/blockchains/base.py
+https://github.com/vision-web3-foundation/client-library/blob/main/vision/client/library/blockchains/base.py
