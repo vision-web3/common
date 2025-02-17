@@ -14,11 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get-environment.outputs.version }}
-      deployment_environment: ${{ steps.get-environment.outputs.deployment_environment }}
-      deployment_longname: ${{ steps.get-environment.outputs.deployment_longname }}
-      deployment_version: ${{ steps.get-environment.outputs.deployment_version }}
-      deployment_pypi_environment: ${{ steps.get-environment.outputs.deployment_pypi_environment }}
-      deployment_url: ${{ steps.get-environment.outputs.deployment_url }}
     
     steps:
       - uses: step-security/harden-runner@v2
