@@ -15,7 +15,7 @@ The primary purpose of the Common Repository is to promote code reusability, str
 
 ### 1.2 Features
 
-The Vision-web3 Common project currently offers the following functionalities:
+The Vision Common project currently offers the following functionalities:
 
 #### Signing module
 The **signer.py** module is used for signing and verifying signatures. The private key must be on the curve Ed25519 or Ed448 and encrypted in a PEM file.
