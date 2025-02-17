@@ -61,7 +61,7 @@ poetry config virtualenvs.in-project true
 #### From Pypi
 
 ```bash
-$ pip install vision-web3-common
+$ pip install vision-common
 ```
 
 #### From source code
