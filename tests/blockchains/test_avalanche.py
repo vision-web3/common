@@ -1,8 +1,8 @@
 import pytest
 
-from pantos.common.blockchains.avalanche import AvalancheUtilities
-from pantos.common.blockchains.avalanche import AvalancheUtilitiesError
-from pantos.common.blockchains.enums import Blockchain
+from vision.common.blockchains.avalanche import AvalancheUtilities
+from vision.common.blockchains.avalanche import AvalancheUtilitiesError
+from vision.common.blockchains.enums import Blockchain
 
 
 @pytest.fixture(scope='module')

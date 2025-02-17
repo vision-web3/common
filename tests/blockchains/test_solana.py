@@ -1,8 +1,8 @@
 import pytest
 
-from pantos.common.blockchains.enums import Blockchain
-from pantos.common.blockchains.solana import SolanaUtilities
-from pantos.common.blockchains.solana import SolanaUtilitiesError
+from vision.common.blockchains.enums import Blockchain
+from vision.common.blockchains.solana import SolanaUtilities
+from vision.common.blockchains.solana import SolanaUtilitiesError
 
 
 @pytest.fixture(scope='module')

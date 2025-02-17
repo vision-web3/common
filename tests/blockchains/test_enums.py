@@ -1,7 +1,7 @@
 import pytest
 
-from pantos.common.blockchains.enums import Blockchain
-from pantos.common.blockchains.enums import ContractAbi
+from vision.common.blockchains.enums import Blockchain
+from vision.common.blockchains.enums import ContractAbi
 
 
 @pytest.mark.parametrize(('blockchain', 'name_in_pascal_case'),
@@ -27,13 +27,13 @@ def test_blockchain_from_name_error():
 
 @pytest.mark.parametrize(
     ('contract_abi', 'blockchain', 'file_name'),
-    [(ContractAbi.PANTOS_HUB, Blockchain.ETHEREUM, 'ethereum_pantos_hub.abi'),
+    [(ContractAbi.VISION_HUB, Blockchain.ETHEREUM, 'ethereum_vision_hub.abi'),
      (ContractAbi.STANDARD_TOKEN, Blockchain.BNB_CHAIN,
       'bnb_chain_standard_token.abi'),
-     (ContractAbi.PANTOS_FORWARDER, Blockchain.CELO,
-      'celo_pantos_forwarder.abi'),
-     (ContractAbi.PANTOS_TOKEN, Blockchain.AVALANCHE,
-      'avalanche_pantos_token.abi')])
+     (ContractAbi.VISION_FORWARDER, Blockchain.CELO,
+      'celo_vision_forwarder.abi'),
+     (ContractAbi.VISION_TOKEN, Blockchain.AVALANCHE,
+      'avalanche_vision_token.abi')])
 def test_contract_abi_get_file_name_correct(contract_abi, blockchain,
                                             file_name):
     assert contract_abi.get_file_name(blockchain) == file_name

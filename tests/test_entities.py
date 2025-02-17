@@ -1,6 +1,6 @@
 import pytest
 
-from pantos.common.entities import ServiceNodeTransferStatus
+from vision.common.entities import ServiceNodeTransferStatus
 
 
 @pytest.mark.parametrize('name, status',

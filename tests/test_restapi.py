@@ -3,14 +3,14 @@ import json
 import pytest
 import werkzeug.exceptions
 
-from pantos.common.restapi import bad_request
-from pantos.common.restapi import conflict
-from pantos.common.restapi import forbidden
-from pantos.common.restapi import internal_server_error
-from pantos.common.restapi import no_content_response
-from pantos.common.restapi import not_acceptable
-from pantos.common.restapi import ok_response
-from pantos.common.restapi import resource_not_found
+from vision.common.restapi import bad_request
+from vision.common.restapi import conflict
+from vision.common.restapi import forbidden
+from vision.common.restapi import internal_server_error
+from vision.common.restapi import no_content_response
+from vision.common.restapi import not_acceptable
+from vision.common.restapi import ok_response
+from vision.common.restapi import resource_not_found
 
 
 @pytest.fixture

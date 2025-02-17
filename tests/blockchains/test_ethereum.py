@@ -7,24 +7,24 @@ import semantic_version  # type: ignore
 import web3
 import web3.exceptions
 
-from pantos.common.blockchains.base import GENERAL_RPC_ERROR_MESSAGE
-from pantos.common.blockchains.base import NodeConnections
-from pantos.common.blockchains.base import ResultsNotMatchingError
-from pantos.common.blockchains.base import SingleNodeConnectionError
-from pantos.common.blockchains.base import TransactionNonceTooLowError
-from pantos.common.blockchains.base import TransactionUnderpricedError
-from pantos.common.blockchains.base import UnhealthyNode
-from pantos.common.blockchains.base import VersionedContractAbi
-from pantos.common.blockchains.enums import Blockchain
-from pantos.common.blockchains.enums import ContractAbi
-from pantos.common.blockchains.ethereum import _NO_ARCHIVE_NODE_LOG_MESSAGE
-from pantos.common.blockchains.ethereum import \
+from vision.common.blockchains.base import GENERAL_RPC_ERROR_MESSAGE
+from vision.common.blockchains.base import NodeConnections
+from vision.common.blockchains.base import ResultsNotMatchingError
+from vision.common.blockchains.base import SingleNodeConnectionError
+from vision.common.blockchains.base import TransactionNonceTooLowError
+from vision.common.blockchains.base import TransactionUnderpricedError
+from vision.common.blockchains.base import UnhealthyNode
+from vision.common.blockchains.base import VersionedContractAbi
+from vision.common.blockchains.enums import Blockchain
+from vision.common.blockchains.enums import ContractAbi
+from vision.common.blockchains.ethereum import _NO_ARCHIVE_NODE_LOG_MESSAGE
+from vision.common.blockchains.ethereum import \
     _NO_ARCHIVE_NODE_RPC_ERROR_MESSAGE
-from pantos.common.blockchains.ethereum import _TRANSACTION_METHOD_NAMES
-from pantos.common.blockchains.ethereum import EthereumUtilities
-from pantos.common.blockchains.ethereum import EthereumUtilitiesError
-from pantos.common.entities import TransactionStatus
-from pantos.common.protocol import get_latest_protocol_version
+from vision.common.blockchains.ethereum import _TRANSACTION_METHOD_NAMES
+from vision.common.blockchains.ethereum import EthereumUtilities
+from vision.common.blockchains.ethereum import EthereumUtilitiesError
+from vision.common.entities import TransactionStatus
+from vision.common.protocol import get_latest_protocol_version
 
 _CONTRACT_ABI_PACKAGE = 'tests.blockchains.contracts'
 """Package that contains the contract ABI files."""
@@ -237,12 +237,12 @@ def test_is_protocol_version_supported_by_contract_correct(
         mock_create_contract, supported_by_contract, ethereum_utilities,
         contract_address, versioned_contract_abi):
     if versioned_contract_abi.contract_abi not in [
-            ContractAbi.PANTOS_HUB, ContractAbi.PANTOS_FORWARDER
+            ContractAbi.VISION_HUB, ContractAbi.VISION_FORWARDER
     ]:
         pytest.skip('contract not tied to specific protocol version')
-    if (versioned_contract_abi.contract_abi is ContractAbi.PANTOS_HUB
+    if (versioned_contract_abi.contract_abi is ContractAbi.VISION_HUB
             and versioned_contract_abi.version
-            < semantic_version.Version('0.2.0')):
+            < semantic_version.Version('0.3.0')):
         pytest.skip('contract function not available')
 
     protocol_version = (versioned_contract_abi.version if supported_by_contract
@@ -264,7 +264,7 @@ def test_is_protocol_version_supported_by_contract_correct(
 def test_is_protocol_version_supported_by_contract_results_not_matching_error(
         mock_create_contract, ethereum_utilities, contract_address):
     versioned_contract_abi = VersionedContractAbi(
-        ContractAbi.PANTOS_HUB, get_latest_protocol_version())
+        ContractAbi.VISION_HUB, get_latest_protocol_version())
 
     with pytest.raises(ResultsNotMatchingError):
         ethereum_utilities.is_protocol_version_supported_by_contract(
@@ -275,7 +275,7 @@ def test_is_protocol_version_supported_by_contract_results_not_matching_error(
 def test_is_protocol_version_supported_by_contract_not_tied_error(
         mock_create_contract, ethereum_utilities, contract_address):
     versioned_contract_abi = VersionedContractAbi(
-        ContractAbi.PANTOS_TOKEN, get_latest_protocol_version())
+        ContractAbi.VISION_TOKEN, get_latest_protocol_version())
 
     with pytest.raises(EthereumUtilitiesError) as exception_info:
         ethereum_utilities.is_protocol_version_supported_by_contract(
@@ -292,7 +292,7 @@ def test_is_protocol_version_supported_by_contract_not_tied_error(
 def test_is_protocol_version_supported_by_contract_other_error(
         mock_create_contract, ethereum_utilities, contract_address):
     versioned_contract_abi = VersionedContractAbi(
-        ContractAbi.PANTOS_HUB, get_latest_protocol_version())
+        ContractAbi.VISION_HUB, get_latest_protocol_version())
 
     with pytest.raises(EthereumUtilitiesError) as exception_info:
         ethereum_utilities.is_protocol_version_supported_by_contract(
@@ -466,7 +466,7 @@ def test_submit_transaction_correct(mock_create_contract,
                                     transaction_id):
     mock_type_2_transactions_supported.return_value = type_2_transaction
     with unittest.mock.patch(
-            'pantos.common.blockchains.ethereum.web3.Account.sign_transaction'
+            'vision.common.blockchains.ethereum.web3.Account.sign_transaction'
     ):
         with unittest.mock.patch.object(
                 w3.eth, 'get_block', return_value={'baseFeePerGas': int(1e8)}):
@@ -534,7 +534,7 @@ def test_submit_transaction_max_fee_per_gas_error(
         base_fee_per_gas +
         transaction_submission_request.min_adaptable_fee_per_gas)
     with unittest.mock.patch(
-            'pantos.common.blockchains.ethereum.web3.Account.sign_transaction'
+            'vision.common.blockchains.ethereum.web3.Account.sign_transaction'
     ):
         with unittest.mock.patch.object(
                 w3.eth, 'get_block',
@@ -555,7 +555,7 @@ def test_submit_transaction_gas_price__error(
     transaction_submission_request.min_adaptable_fee_per_gas = 1
     transaction_submission_request.max_total_fee_per_gas = 1
     with unittest.mock.patch(
-            'pantos.common.blockchains.ethereum.web3.Account.sign_transaction'
+            'vision.common.blockchains.ethereum.web3.Account.sign_transaction'
     ):
         with pytest.raises(EthereumUtilitiesError):
             ethereum_utilities.submit_transaction(
@@ -567,7 +567,7 @@ def test_submit_transaction_nonce_too_low_error(
         mock_create_contract, ethereum_utilities, w3,
         transaction_submission_request):
     with unittest.mock.patch(
-            'pantos.common.blockchains.ethereum.web3.Account.sign_transaction'
+            'vision.common.blockchains.ethereum.web3.Account.sign_transaction'
     ):
         with unittest.mock.patch.object(
                 w3.eth, 'send_raw_transaction', side_effect=ValueError({
@@ -584,7 +584,7 @@ def test_submit_transaction_underpriced_error(mock_create_contract,
                                               ethereum_utilities, w3,
                                               transaction_submission_request):
     with unittest.mock.patch(
-            'pantos.common.blockchains.ethereum.web3.Account.sign_transaction'
+            'vision.common.blockchains.ethereum.web3.Account.sign_transaction'
     ):
         with unittest.mock.patch.object(
                 w3.eth, 'send_raw_transaction', side_effect=ValueError({
@@ -601,7 +601,7 @@ def test_submit_transaction_other_send_error(mock_create_contract,
                                              ethereum_utilities, w3,
                                              transaction_submission_request):
     with unittest.mock.patch(
-            'pantos.common.blockchains.ethereum.web3.Account.sign_transaction'
+            'vision.common.blockchains.ethereum.web3.Account.sign_transaction'
     ):
         with unittest.mock.patch.object(w3.eth, 'send_raw_transaction',
                                         side_effect=ValueError('some error')):
@@ -615,7 +615,7 @@ def test_submit_transaction_results_not_matching_error(
         mock_create_contract, ethereum_utilities, w3,
         transaction_submission_request):
     with unittest.mock.patch(
-            'pantos.common.blockchains.ethereum.web3.Account.sign_transaction'
+            'vision.common.blockchains.ethereum.web3.Account.sign_transaction'
     ):
         with unittest.mock.patch.object(w3.eth, 'send_raw_transaction',
                                         side_effect=ResultsNotMatchingError):
@@ -624,7 +624,7 @@ def test_submit_transaction_results_not_matching_error(
                     transaction_submission_request)
 
 
-@unittest.mock.patch('pantos.common.blockchains.ethereum.web3')
+@unittest.mock.patch('vision.common.blockchains.ethereum.web3')
 def test_create_single_node_connection_correct(mocked_web3, ethereum_utilities,
                                                blockchain_node_urls):
     blockchain_node_url = blockchain_node_urls[0]
@@ -636,7 +636,7 @@ def test_create_single_node_connection_correct(mocked_web3, ethereum_utilities,
         mocked_web3.Web3.HTTPProvider(blockchain_node_url))
 
 
-@unittest.mock.patch('pantos.common.blockchains.ethereum.web3')
+@unittest.mock.patch('vision.common.blockchains.ethereum.web3')
 def test_create_single_node_connection_extra_data_lenght_correct(
         mocked_web3, ethereum_utilities, blockchain_node_urls):
     mocked_web3.exceptions.ExtraDataLengthError = \
@@ -655,7 +655,7 @@ def test_create_single_node_connection_extra_data_lenght_correct(
         mocked_web3.middleware.geth_poa_middleware, layer=0)
 
 
-@unittest.mock.patch('pantos.common.blockchains.ethereum.web3')
+@unittest.mock.patch('vision.common.blockchains.ethereum.web3')
 def test_create_single_node_connection_error(mocked_web3, blockchain_node_urls,
                                              ethereum_utilities):
     blockchain_node_url = blockchain_node_urls[0]
@@ -665,7 +665,7 @@ def test_create_single_node_connection_error(mocked_web3, blockchain_node_urls,
         ethereum_utilities._create_single_node_connection(blockchain_node_url)
 
 
-@unittest.mock.patch('pantos.common.blockchains.ethereum.web3')
+@unittest.mock.patch('vision.common.blockchains.ethereum.web3')
 def test_create_single_node_connection_not_connected_error(
         mocked_web3, blockchain_node_urls, ethereum_utilities):
     blockchain_node_url = blockchain_node_urls[0]

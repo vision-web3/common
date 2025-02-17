@@ -11,13 +11,13 @@ repos:
     rev: 6.0.0
     hooks:
       - id: flake8
-        files: ^pantos/common
+        files: ^vision/common
         stages: [ commit ]
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.0.1
     hooks:
       - id: mypy
-        files: ^pantos/common
+        files: ^vision/common
         args: ['--namespace-packages', '--explicit-package-bases' ]
         additional_dependencies: ['types-requests', 'types-PyYAML', 'web3[tester]']
         stages: [ commit ]

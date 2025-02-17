@@ -2,8 +2,8 @@ import itertools
 
 import pytest
 
-from pantos.common.exceptions import BaseError
-from pantos.common.exceptions import ErrorCreator
+from vision.common.exceptions import BaseError
+from vision.common.exceptions import ErrorCreator
 
 
 class _SuperclassError(BaseError):

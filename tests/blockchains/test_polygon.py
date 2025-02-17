@@ -1,8 +1,8 @@
 import pytest
 
-from pantos.common.blockchains.enums import Blockchain
-from pantos.common.blockchains.polygon import PolygonUtilities
-from pantos.common.blockchains.polygon import PolygonUtilitiesError
+from vision.common.blockchains.enums import Blockchain
+from vision.common.blockchains.polygon import PolygonUtilities
+from vision.common.blockchains.polygon import PolygonUtilitiesError
 
 
 @pytest.fixture(scope='module')

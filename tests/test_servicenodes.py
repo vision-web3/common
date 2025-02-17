@@ -4,11 +4,11 @@ import uuid
 import pytest
 import requests
 
-from pantos.common.blockchains.enums import Blockchain
-from pantos.common.entities import ServiceNodeBid
-from pantos.common.servicenodes import ServiceNodeClient
-from pantos.common.servicenodes import ServiceNodeClientError
-from pantos.common.types import BlockchainAddress
+from vision.common.blockchains.enums import Blockchain
+from vision.common.entities import ServiceNodeBid
+from vision.common.servicenodes import ServiceNodeClient
+from vision.common.servicenodes import ServiceNodeClientError
+from vision.common.types import BlockchainAddress
 
 mock_transfer_request = ServiceNodeClient.SubmitTransferRequest(
     'url', Blockchain(0), Blockchain(1), BlockchainAddress('sender_addr'),
@@ -51,7 +51,7 @@ mock_response_header_html = requests.utils.CaseInsensitiveDict(
 
 @unittest.mock.patch.object(ServiceNodeClient,
                             '_ServiceNodeClient__build_transfer_url')
-@unittest.mock.patch('pantos.common.servicenodes.requests.post')
+@unittest.mock.patch('vision.common.servicenodes.requests.post')
 def test_submit_transfer_correct(mocked_post, mocked_build_transfer_url):
     uuid_string = '123e4567-e89b-12d3-a456-426655440000'
     mocked_post().json.return_value = {'task_id': uuid_string}
@@ -71,9 +71,9 @@ def test_submit_transfer_correct(mocked_post, mocked_build_transfer_url):
 
 @unittest.mock.patch.object(ServiceNodeClient,
                             '_ServiceNodeClient__build_transfer_url')
-@unittest.mock.patch('pantos.common.servicenodes.locals',
+@unittest.mock.patch('vision.common.servicenodes.locals',
                      return_value=['response'])
-@unittest.mock.patch('pantos.common.servicenodes.requests.post')
+@unittest.mock.patch('vision.common.servicenodes.requests.post')
 def test_submit_transfer_exception(mocked_post, mocked_locals,
                                    mocked_build_transfer_url):
     mocked_post(
@@ -87,9 +87,9 @@ def test_submit_transfer_exception(mocked_post, mocked_locals,
 
 @unittest.mock.patch.object(ServiceNodeClient,
                             '_ServiceNodeClient__build_transfer_url')
-@unittest.mock.patch('pantos.common.servicenodes.locals',
+@unittest.mock.patch('vision.common.servicenodes.locals',
                      return_value=['response'])
-@unittest.mock.patch('pantos.common.servicenodes.requests.post')
+@unittest.mock.patch('vision.common.servicenodes.requests.post')
 def test_submit_transfer_no_response_message_exception(
         mocked_post, mocked_locals, mocked_build_transfer_url):
     mocked_post(
@@ -103,9 +103,9 @@ def test_submit_transfer_no_response_message_exception(
 
 @unittest.mock.patch.object(ServiceNodeClient,
                             '_ServiceNodeClient__build_transfer_url')
-@unittest.mock.patch('pantos.common.servicenodes.locals',
+@unittest.mock.patch('vision.common.servicenodes.locals',
                      return_value=['response'])
-@unittest.mock.patch('pantos.common.servicenodes.requests.post')
+@unittest.mock.patch('vision.common.servicenodes.requests.post')
 def test_submit_transfer_html_response_exception(mocked_post, mocked_locals,
                                                  mocked_build_transfer_url):
     mocked_post(
@@ -130,7 +130,7 @@ def test_build_transfer_url_with_slash_correct():
     assert result == 'some_url/transfer'
 
 
-@unittest.mock.patch('pantos.common.servicenodes.requests.get')
+@unittest.mock.patch('vision.common.servicenodes.requests.get')
 def test_bids_correct(mocked_get):
     url = 'mock_url'
     source_blockchain = Blockchain.ETHEREUM
@@ -147,7 +147,7 @@ def test_bids_correct(mocked_get):
                                      mock_bid_response['signature'])
 
 
-@unittest.mock.patch('pantos.common.servicenodes.requests.get')
+@unittest.mock.patch('vision.common.servicenodes.requests.get')
 def test_bids_url_has_slash_correc(mocked_get):
     url = 'mock_url/'
     source_blockchain = Blockchain.ETHEREUM
@@ -164,7 +164,7 @@ def test_bids_url_has_slash_correc(mocked_get):
                                      mock_bid_response['signature'])
 
 
-@unittest.mock.patch('pantos.common.servicenodes.requests.get')
+@unittest.mock.patch('vision.common.servicenodes.requests.get')
 def test_bids_service_node_client_error(mocked_get):
     url = 'mock_url'
     source_blockchain = Blockchain.ETHEREUM
@@ -179,7 +179,7 @@ def test_bids_service_node_client_error(mocked_get):
                                  destination_blockchain)
 
 
-@unittest.mock.patch('pantos.common.servicenodes.requests.get')
+@unittest.mock.patch('vision.common.servicenodes.requests.get')
 def test_bids_service_node_no_response_message_client_error(mocked_get):
     url = 'mock_url'
     source_blockchain = Blockchain.ETHEREUM
@@ -194,7 +194,7 @@ def test_bids_service_node_no_response_message_client_error(mocked_get):
                                  destination_blockchain)
 
 
-@unittest.mock.patch('pantos.common.servicenodes.requests.get')
+@unittest.mock.patch('vision.common.servicenodes.requests.get')
 def test_bids_service_node_html_response_client_error(mocked_get):
     url = 'mock_url'
     source_blockchain = Blockchain.ETHEREUM
@@ -223,11 +223,11 @@ def test_build_bids_url_with_slash_correct():
     assert result == expected
 
 
-@unittest.mock.patch('pantos.common.servicenodes.ServiceNodeTransferStatus')
-@unittest.mock.patch('pantos.common.servicenodes.BlockchainAddress')
-@unittest.mock.patch('pantos.common.servicenodes.Blockchain')
-@unittest.mock.patch('pantos.common.servicenodes.uuid')
-@unittest.mock.patch('pantos.common.servicenodes.requests.get')
+@unittest.mock.patch('vision.common.servicenodes.ServiceNodeTransferStatus')
+@unittest.mock.patch('vision.common.servicenodes.BlockchainAddress')
+@unittest.mock.patch('vision.common.servicenodes.Blockchain')
+@unittest.mock.patch('vision.common.servicenodes.uuid')
+@unittest.mock.patch('vision.common.servicenodes.requests.get')
 def test_status_correct(mocked_get, mocked_uuid, mocked_blockchain,
                         mocked_blockchain_address, mocked_status):
     task_id = uuid.UUID('cf9ff19f-b691-46c6-8645-08d05309ea84')
@@ -259,9 +259,9 @@ def test_status_correct(mocked_get, mocked_uuid, mocked_blockchain,
     assert result.transaction_id == mocked_json_result['transaction_id']
 
 
-@unittest.mock.patch('pantos.common.servicenodes.locals',
+@unittest.mock.patch('vision.common.servicenodes.locals',
                      return_value=['response'])
-@unittest.mock.patch('pantos.common.servicenodes.requests.get')
+@unittest.mock.patch('vision.common.servicenodes.requests.get')
 def test_status_exception(mocked_get, mocked_locals):
     task_id = uuid.UUID('cf9ff19f-b691-46c6-8645-08d05309ea84')
     mocked_get(
@@ -273,9 +273,9 @@ def test_status_exception(mocked_get, mocked_locals):
         ServiceNodeClient().status('', task_id)
 
 
-@unittest.mock.patch('pantos.common.servicenodes.locals',
+@unittest.mock.patch('vision.common.servicenodes.locals',
                      return_value=['response'])
-@unittest.mock.patch('pantos.common.servicenodes.requests.get')
+@unittest.mock.patch('vision.common.servicenodes.requests.get')
 def test_status_no_response_message_exception(mocked_get, mocked_locals):
     task_id = uuid.UUID('cf9ff19f-b691-46c6-8645-08d05309ea84')
     mocked_get(
@@ -286,9 +286,9 @@ def test_status_no_response_message_exception(mocked_get, mocked_locals):
         ServiceNodeClient().status('', task_id)
 
 
-@unittest.mock.patch('pantos.common.servicenodes.locals',
+@unittest.mock.patch('vision.common.servicenodes.locals',
                      return_value=['response'])
-@unittest.mock.patch('pantos.common.servicenodes.requests.get')
+@unittest.mock.patch('vision.common.servicenodes.requests.get')
 def test_status_html_response_message_exception(mocked_get, mocked_locals):
     task_id = uuid.UUID('cf9ff19f-b691-46c6-8645-08d05309ea84')
     mocked_get(

@@ -1,19 +1,19 @@
 [tool.poetry]
-name = "pantos-common"
-version = "6.0.1"
-description = "Common code for Pantos off-chain components."
-authors = ["Pantos GmbH <contact@pantos.io>"]
+name = "vision-common"
+version = "0.1.0"
+description = "Common code for Vision-web3 off-chain components."
+authors = ["Vision-web3-foundation GmbH <contact@vision-web3.io>"]
 license = "GPL-3.0-only"
 readme = "README.md"
-homepage = "https://pantos.io"
-repository = "https://github.com/pantos-io/common"
+homepage = "https://vision-web3.io"
+repository = "https://github.com/vision-web3-foundation/common"
 packages = [
-    { include = "pantos" }
+    { include = "vision" }
 ]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["pantos"]
+include = ["vision"]
 namespaces = true
 
 [tool.poetry.group.test.dependencies]

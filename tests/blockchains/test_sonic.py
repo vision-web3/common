@@ -1,8 +1,8 @@
 import pytest
 
-from pantos.common.blockchains.enums import Blockchain
-from pantos.common.blockchains.sonic import SonicUtilities
-from pantos.common.blockchains.sonic import SonicUtilitiesError
+from vision.common.blockchains.enums import Blockchain
+from vision.common.blockchains.sonic import SonicUtilities
+from vision.common.blockchains.sonic import SonicUtilitiesError
 
 
 @pytest.fixture(scope='module')

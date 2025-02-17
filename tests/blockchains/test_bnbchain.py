@@ -1,8 +1,8 @@
 import pytest
 
-from pantos.common.blockchains.bnbchain import BnbChainUtilities
-from pantos.common.blockchains.bnbchain import BnbChainUtilitiesError
-from pantos.common.blockchains.enums import Blockchain
+from vision.common.blockchains.bnbchain import BnbChainUtilities
+from vision.common.blockchains.bnbchain import BnbChainUtilitiesError
+from vision.common.blockchains.enums import Blockchain
 
 
 @pytest.fixture(scope='module')
