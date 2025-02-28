@@ -12,6 +12,8 @@ from vision.common.blockchains.enums import Blockchain
 from vision.common.entities import TransactionStatus
 from vision.common.types import BlockchainAddress
 
+M = typing.TypeVar('M')
+
 
 class SolanaUtilitiesError(BlockchainUtilitiesError):
     """Exception class for all Solana utilities errors.
@@ -112,8 +114,7 @@ class SolanaUtilities(BlockchainUtilities):
 
     def _create_single_node_connection(
             self, blockchain_node_url: str,
-            timeout: typing.Optional[typing.Union[float,
-                                                  tuple]] = None) \
-            -> typing.Any:
+            timeout: typing.Optional[typing.Union[float, tuple]] = None,
+            node_connections_middlewares: list[M] = []) -> typing.Any:
         # Docstring inherited
         raise NotImplementedError  # pragma: no cover

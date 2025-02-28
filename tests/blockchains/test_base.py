@@ -153,7 +153,7 @@ def test_create_node_connection_fallback_not_used_twice_correct(
         'fallback_node1', 'fallback_node2'
     ]
     mocked_create_single_node_connection.side_effect = \
-        lambda node_url, _: node_url if node_url.startswith('fallback') \
+        lambda node_url, _f, _m: node_url if node_url.startswith('fallback') \
         else exec('raise SingleNodeConnectionError()')
 
     node_connections = blockchain_utilities.create_node_connections()

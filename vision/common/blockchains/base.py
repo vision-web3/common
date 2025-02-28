@@ -41,6 +41,7 @@ GENERAL_RPC_ERROR_MESSAGE = 'unreachable'
 H = typing.TypeVar('H', bound='BlockchainHandler')
 T = typing.TypeVar('T',
                    bound='BlockchainUtilities.TransactionSubmissionRequest')
+M = typing.TypeVar('M')
 N = typing.TypeVar('N')
 W = typing.TypeVar('W')
 
@@ -393,10 +394,18 @@ class BlockchainHandler(abc.ABC):
         """
         package_name = cls.__module__.rpartition('.')[0]
         package_path = str(pathlib.Path(inspect.getfile(cls)).parent)
+
+        # we need to replace _ because we have BNB_CHAIN as enum but bnbchain
+        # as module....
+        blockchain_names = [
+            blockchain.name.replace("_", "").lower()
+            for blockchain in Blockchain
+        ]
+
         # Only subclasses in imported modules can be found
         for module in pkgutil.iter_modules([package_path]):
             full_name = f'{package_name}.{module.name}'
-            if full_name != 'vision.common.blockchains.tasks':
+            if module.name.lower() in blockchain_names:
                 importlib.import_module(full_name)
         blockchain_handlers = {}
         handler_classes = collections.deque[type[H]](cls.__subclasses__())
@@ -443,7 +452,8 @@ class UnhealthyNode:
 
 
 class BlockchainUtilities(BlockchainHandler,
-                          ErrorCreator[BlockchainUtilitiesError]):
+                          ErrorCreator[BlockchainUtilitiesError],
+                          typing.Generic[M]):
     """Base class for all blockchain utilities classes.
 
     Attributes
@@ -467,6 +477,7 @@ class BlockchainUtilities(BlockchainHandler,
                  required_transaction_confirmations: int,
                  transaction_network_id: typing.Optional[int],
                  default_private_key: typing.Optional[tuple[str, str]] = None,
+                 node_connections_middlewares: list[M] = [],
                  celery_tasks_enabled: bool = False):
         """Construct a blockchain utilities instance.
 
@@ -494,6 +505,8 @@ class BlockchainUtilities(BlockchainHandler,
         default_private_key : tuple of str and str, optional
             The keystore value and password of the default private
             key to be used by the blockchain utilities. (default: None).
+        node_connections_middlewares : list of middlewares, optional
+            The middlewares to be added to each node connections (default: []).
         celery_tasks_enabled : bool, optional
             If True, Celery tasks are enabled for enhanced
             functionalities (default: False). This requires a proper
@@ -527,6 +540,7 @@ class BlockchainUtilities(BlockchainHandler,
         self.transaction_network_id = transaction_network_id
         self._blockchain_node_urls = blockchain_node_urls
         self._fallback_blockchain_node_urls = fallback_blockchain_node_urls
+        self._node_connections_middlewares = node_connections_middlewares
         self._default_private_key = (
             None if default_private_key is None else self.decrypt_private_key(
                 default_private_key[0], default_private_key[1]))
@@ -536,9 +550,8 @@ class BlockchainUtilities(BlockchainHandler,
         self.__loaded_contract_abis: dict[ContractAbi, list[typing.Any]] = {}
 
     def create_node_connections(
-            self,
-            timeout: typing.Optional[typing.Union[float, tuple]] = None) \
-            -> NodeConnections:
+            self, timeout: typing.Optional[typing.Union[float, tuple]] = None,
+            node_connections_middlewares: list[M] = []) -> NodeConnections:
         """Create blockchain node connections.
 
         Parameters
@@ -564,7 +577,8 @@ class BlockchainUtilities(BlockchainHandler,
 
         for blockchain_node_url in self._blockchain_node_urls:
             node_connection = self.__create_valid_node_connection(
-                blockchain_node_url, fallback_nodes, timeout)
+                blockchain_node_url, fallback_nodes, timeout,
+                node_connections_middlewares)
             node_connections.add_node_connection(node_connection)
 
         return node_connections
@@ -572,13 +586,15 @@ class BlockchainUtilities(BlockchainHandler,
     def __create_valid_node_connection(
             self, blockchain_node_url: str,
             fallback_blockchain_node_urls: list[str],
-            timeout: typing.Optional[typing.Union[float, tuple]] = None):
+            timeout: typing.Optional[typing.Union[float, tuple]] = None,
+            node_connections_middlewares: list[M] = []):
         blockchain_node_urls = ([blockchain_node_url] +
                                 fallback_blockchain_node_urls)
         for blockchain_node_url_ in blockchain_node_urls:
             try:
                 valid_node_connection = self._create_single_node_connection(
-                    blockchain_node_url_, timeout)
+                    blockchain_node_url_, timeout,
+                    node_connections_middlewares)
                 if blockchain_node_url_ != blockchain_node_url:
                     fallback_blockchain_node_urls.remove(blockchain_node_url_)
                 return valid_node_connection
@@ -1250,7 +1266,8 @@ class BlockchainUtilities(BlockchainHandler,
     @abc.abstractmethod
     def _create_single_node_connection(
             self, blockchain_node_url: str,
-            timeout: float | tuple | None = None) -> typing.Any:
+            timeout: float | tuple | None = None,
+            node_connections_middlewares: list[M] = []) -> typing.Any:
         """Create a single blockchain-specific node connection
         with the given URL.
 
@@ -1261,6 +1278,8 @@ class BlockchainUtilities(BlockchainHandler,
         timeout : float, tuple or None
             How long to wait for the server to send data before giving up,
             as a float, or a (connect timeout, read timeout) tuple.
+        node_connections_middlewares : list of middlewares, optional
+            The middlewares to be added to the node connection.
 
         Returns
         -------
