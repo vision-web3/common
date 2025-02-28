@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vision-common"
-version = "0.1.0"
+version = "0.1.1"
 description = "Common code for Vision-web3 off-chain components."
 authors = ["Vision-web3-foundation GmbH <contact@vision-web3.io>"]
 license = "GPL-3.0-only"
