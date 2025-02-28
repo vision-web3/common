@@ -10,7 +10,8 @@ from vision.common.exceptions import NotInitializedError
 _blockchain_utilities: dict[Blockchain, BlockchainUtilities] = {}
 """Blockchain-specific utilities objects."""
 
-_blockchain_utilities_classes = BlockchainUtilities.find_subclasses()
+_blockchain_utilities_classes = BlockchainUtilities[
+    typing.Any].find_subclasses()
 """Blockchain-specific utilities classes."""
 
 

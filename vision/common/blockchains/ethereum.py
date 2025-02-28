@@ -11,6 +11,7 @@ import web3.contract.contract
 import web3.exceptions
 import web3.middleware
 import web3.types
+from web3.middleware import Middleware
 
 from vision.common.blockchains.base import GENERAL_RPC_ERROR_MESSAGE
 from vision.common.blockchains.base import BlockchainUtilities
@@ -51,7 +52,7 @@ class EthereumUtilitiesError(BlockchainUtilitiesError):
     pass
 
 
-class EthereumUtilities(BlockchainUtilities):
+class EthereumUtilities(BlockchainUtilities[Middleware]):
     """Class for Ethereum-specific utilities.
 
     """
@@ -74,11 +75,12 @@ class EthereumUtilities(BlockchainUtilities):
                          celery_tasks_enabled=celery_tasks_enabled)
 
     def create_node_connections(
-            self,
-            timeout: typing.Optional[typing.Union[float, tuple]] = None) \
-            -> NodeConnections[web3.Web3]:
+        self, timeout: typing.Optional[typing.Union[float, tuple]] = None,
+        node_connections_middlewares: list[Middleware] = []
+    ) -> NodeConnections[web3.Web3]:
         # Docstring inherited
-        return super().create_node_connections(timeout)
+        return super().create_node_connections(timeout,
+                                               node_connections_middlewares)
 
     def create_contract(
             self, contract_address: BlockchainAddress,
@@ -414,7 +416,8 @@ class EthereumUtilities(BlockchainUtilities):
 
     def _create_single_node_connection(
             self, blockchain_node_url: str,
-            timeout: float | tuple | None = None) -> typing.Any:
+            timeout: float | tuple | None = None,
+            node_connections_middlewares: list[Middleware] = []) -> typing.Any:
         # Docstring inherited
         request_kwargs = {'timeout': timeout}
         try:
@@ -434,6 +437,8 @@ class EthereumUtilities(BlockchainUtilities):
                             blockchain_node_url).netloc,
                         'client_version': w3.client_version
                     })
+                for middleware in node_connections_middlewares:
+                    w3.middleware_onion.add(middleware)
                 return w3
         except Exception:
             raise self._create_single_node_connection_error()
