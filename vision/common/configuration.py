@@ -310,20 +310,21 @@ class Config:
             """
             value = str(loader.construct_scalar(node))
             match = pattern.findall(value)  # to find all env variables in line
-            dt = ''.join(type_tag_pattern.findall(value)) or ''
-            value = value.replace(dt, '')
+            tag = ''.join(type_tag_pattern.findall(value)) or ''
+            value = value.replace(tag, '')
 
             if match:
                 full_value = value
-                for g in match:
+                for env_match in match:
                     curr_default_value = default_value
-                    env_var_name = g
-                    env_var_name_with_default = g
-                    if default_sep and isinstance(g, tuple) and len(g) > 1:
-                        env_var_name = g[0]
-                        env_var_name_with_default = ''.join(g)
+                    env_var_name = env_match
+                    env_var_name_with_default = env_match
+                    if default_sep and isinstance(
+                            env_match, tuple) and len(env_match) > 1:
+                        env_var_name = env_match[0]
+                        env_var_name_with_default = ''.join(env_match)
                         found = False
-                        for each in g:
+                        for each in env_match:
                             if default_sep in each:
                                 _, curr_default_value = each.split(
                                     default_sep, 1)
@@ -338,10 +339,10 @@ class Config:
                     full_value = full_value.replace(
                         f'${{{env_var_name_with_default}}}', env_value)
 
-                    if dt:
-                        # do one more roundtrip with the dt constructor
+                    if tag:
+                        # do one more roundtrip with the tag constructor
                         node.value = full_value
-                        node.tag = dt.strip()
+                        node.tag = tag.strip()
                         return loader.yaml_constructors[node.tag](loader, node)
 
                 # Handle case where the value is a list (separated by '|')
