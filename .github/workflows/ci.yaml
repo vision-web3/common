@@ -8,4 +8,4 @@ on:
 
 jobs:
   shared:
-    uses: vision-web3-foundation/ci-workflows/.github/workflows/python-ci.yml@v1
+    uses: vision-web3/ci-workflows/.github/workflows/python-ci.yml@v1

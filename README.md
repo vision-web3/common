@@ -1,7 +1,7 @@
-<img src="https://raw.githubusercontent.com/vision-web3-foundation/common/img/vision-logo.png" alt="Vision-web3 logo" align="right" width="120" />
+<img src="https://raw.githubusercontent.com/vision-web3/common/img/vision-logo.png" alt="Vision-web3 logo" align="right" width="120" />
 
-[![CI](https://github.com/vision-web3-foundation/common/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/vision-web3-foundation/common/actions/workflows/ci.yaml) 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vision-web3-foundation_common&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=vision-web3-foundation_common)
+[![CI](https://github.com/vision-web3/common/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/vision-web3/common/actions/workflows/ci.yaml) 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vision-web3_common&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=vision-web3_common)
 
 # Common code for Vision-web3 off-chain components
 
@@ -94,4 +94,4 @@ Alternatively one can define the location of such files by using the `VISION-WEB
 
 ### 3.2 Examples
 
-https://github.com/vision-web3-foundation/client-library/blob/main/vision/client/library/blockchains/base.py
+https://github.com/vision-web3/client-library/blob/main/vision/client/library/blockchains/base.py

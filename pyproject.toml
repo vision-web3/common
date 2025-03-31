@@ -2,11 +2,11 @@
 name = "vision-common"
 version = "0.2.0"
 description = "Common code for Vision-web3 off-chain components."
-authors = ["Vision-web3-foundation GmbH <contact@vision-web3.io>"]
+authors = ["vision-web3 GmbH <contact@vision-web3.io>"]
 license = "GPL-3.0-only"
 readme = "README.md"
 homepage = "https://vision-web3.io"
-repository = "https://github.com/vision-web3-foundation/common"
+repository = "https://github.com/vision-web3/common"
 packages = [
     { include = "vision" }
 ]
