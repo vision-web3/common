@@ -179,7 +179,7 @@ def test_get_token_results_not_matching_error(mocked_create_contract,
 
 def test_get_logs_correct(ethereum_utilities, deployed_erc20):
     transfer_event = deployed_erc20.events.Transfer()
-    assert ethereum_utilities.get_logs(transfer_event, 0, 0) == ()
+    assert ethereum_utilities.get_logs(transfer_event, 0, 0) == []
 
 
 def test_get_logs_error(ethereum_utilities, deployed_erc20):
@@ -433,7 +433,7 @@ def test_get_number_of_confirmations_tx_not_found(
         mocked_get_transaction_block_number, ethereum_utilities, w3,
         transaction_id):
     mocked_get_transaction_block_number.side_effect = \
-        web3.exceptions.TransactionNotFound
+        web3.exceptions.TransactionNotFound('')
 
     status, number_of_confirmations = \
         ethereum_utilities.get_number_of_confirmations(transaction_id)
@@ -652,7 +652,7 @@ def test_create_single_node_connection_extra_data_lenght_correct(
     assert result == mocked_web3.Web3(
         mocked_web3.Web3.HTTPProvider(blockchain_node_url))
     mocked_web3.Web3().middleware_onion.inject.assert_called_once_with(
-        mocked_web3.middleware.geth_poa_middleware, layer=0)
+        mocked_web3.middleware.ExtraDataToPOAMiddleware, layer=0)
 
 
 @unittest.mock.patch('vision.common.blockchains.ethereum.web3')
