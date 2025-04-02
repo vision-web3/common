@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "vision-common"
-version = "0.2.0"
+version = "0.3.0"
 description = "Common code for Vision-web3 off-chain components."
-authors = ["vision-web3 GmbH <contact@vision-web3.io>"]
+authors = ["vision-web3 <XXX>"]
 license = "GPL-3.0-only"
 readme = "README.md"
-homepage = "https://vision-web3.io"
+# homepage = "XXXX"
 repository = "https://github.com/vision-web3/common"
 packages = [
     { include = "vision" }
@@ -19,13 +19,13 @@ namespaces = true
 [tool.poetry.group.test.dependencies]
 pytest = "7.4.0"
 pytest-cov = "4.1.0"
-web3 = {extras = ["tester"], version = "^6.5.0"}
+web3 = {extras = ["tester"], version = "^7.10.0"}
 
 [tool.poetry.group.lint.dependencies]
 bandit = "1.7.5"
 flake8 = "6.0.0"
 isort = "5.12.0"
-mypy = "1.0.1"
+mypy = "1.6.0"
 types-pyyaml = "6.0.12.10"
 types-requests = "2.31.0.1"
 yapf = "0.40.1"
@@ -41,12 +41,12 @@ Flask-RESTful = "0.3.10"
 JSON-log-formatter = "0.5.2"
 PyYAML = "6.0.1"
 requests = "2.32.3"
-web3 = "6.5.0"
+web3 = "7.10.0"
 python-dotenv = "1.0.1"
 pycryptodome = "3.20.0"
 hexbytes = "1.2.1"
 semantic-version = "2.10.0"
-eth-account = "0.13.0"
+eth-account = "0.13.1"
 marshmallow = "^3.26.0"
 
 [build-system]

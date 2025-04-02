@@ -214,11 +214,9 @@ class EthereumUtilities(BlockchainUtilities[Middleware]):
         try:
             # Query all events of the contract event.address between the two
             # specified block numbers
-            logs = event.get_logs(fromBlock=from_block_number,
-                                  toBlock=to_block_number, argument_filters={
-                                      'address': event.address
-                                  }).get()
-            return logs
+            logs = event.get_logs(from_block=from_block_number,
+                                  to_block=to_block_number).get()
+            return list(logs)
         except ResultsNotMatchingError:
             raise
         except Exception:
@@ -429,7 +427,7 @@ class EthereumUtilities(BlockchainUtilities[Middleware]):
                     w3.eth.get_block('latest')
                 except web3.exceptions.ExtraDataLengthError:
                     w3.middleware_onion.inject(
-                        web3.middleware.geth_poa_middleware, layer=0)
+                        web3.middleware.ExtraDataToPOAMiddleware, layer=0)
                 _logger.info(
                     'new blockchain node connection', extra={
                         'blockchain': self.get_blockchain(),
@@ -555,7 +553,7 @@ class EthereumUtilities(BlockchainUtilities[Middleware]):
                     typing.cast(web3.types.TxParams, replay_tx),
                     context_block_number).get()
             except web3.exceptions.ContractLogicError as error:
-                revert_message = str(error)
+                revert_message = str(error.message)
             except ValueError as error:
                 if _NO_ARCHIVE_NODE_RPC_ERROR_MESSAGE in error.args[0].get(
                         'message'):
