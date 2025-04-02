@@ -2,7 +2,7 @@
 name = "vision-common"
 version = "0.3.0"
 description = "Common code for Vision-web3 off-chain components."
-authors = ["vision-web3 <XXX>"]
+authors = ["vision-web3 <contact@notemail.com>"]
 license = "GPL-3.0-only"
 readme = "README.md"
 # homepage = "XXXX"
