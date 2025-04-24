@@ -222,8 +222,8 @@ class EthereumUtilities(BlockchainUtilities[Middleware]):
         except Exception:
             assert event is not None
             raise self._create_error(
-                'cannot process the "{}" event logs of the contract with the '
-                'address "{}"'.format(event.event_name, event.address))
+                f"cannot process the '{event.event_name}' event logs of the "
+                f"contract with the address '{event.address}'")
 
     def is_valid_address(self, address: str) -> bool:
         # Docstring inherited
@@ -427,7 +427,9 @@ class EthereumUtilities(BlockchainUtilities[Middleware]):
                     w3.eth.get_block('latest')
                 except web3.exceptions.ExtraDataLengthError:
                     w3.middleware_onion.inject(
-                        web3.middleware.ExtraDataToPOAMiddleware, layer=0)
+                        web3.middleware.
+                        ExtraDataToPOAMiddleware,  # type: ignore
+                        layer=0)
                 _logger.info(
                     'new blockchain node connection', extra={
                         'blockchain': self.get_blockchain(),

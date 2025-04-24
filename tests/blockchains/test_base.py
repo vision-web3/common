@@ -311,7 +311,7 @@ def test_start_transaction_submission_correct(
         if initial_submission_underpriced else transaction_submission_response
     ]
     mock_resubmit_transaction.return_value = transaction_resubmission_response
-    internal_transaction_id = \
+    internal_transaction_id, transaction_id = \
         blockchain_utilities.start_transaction_submission(
             transaction_submission_start_request)
     assert (internal_transaction_id ==

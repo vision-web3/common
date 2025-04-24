@@ -1133,7 +1133,7 @@ class BlockchainUtilities(BlockchainHandler,
     def start_transaction_submission(
             self, request: TransactionSubmissionStartRequest,
             node_connections: typing.Optional[NodeConnections] = None) \
-            -> uuid.UUID:
+            -> typing.Tuple[uuid.UUID, str]:
         """Start a transaction submission. The transaction is
         automatically resubmitted with higher transaction fees until it
         is included in a block. Celery tasks need to be enabled for this
@@ -1151,6 +1151,8 @@ class BlockchainUtilities(BlockchainHandler,
         uuid.UUID
             The unique internal transaction ID, which can be used later
             to retrieve the status of the transaction submission.
+        str
+            The unique transaction ID of the submitted transactions.
 
         Raises
         ------
@@ -1192,7 +1194,7 @@ class BlockchainUtilities(BlockchainHandler,
             raise self._create_error(
                 'unable to create a transaction resubmission task',
                 request=request, transaction_id=response.transaction_id)
-        return internal_transaction_id
+        return internal_transaction_id, response.transaction_id
 
     @dataclasses.dataclass
     class TransactionSubmissionStatusResponse:
